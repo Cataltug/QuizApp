@@ -1,0 +1,9 @@
+// In App.js in a new project
+
+import * as React from 'react';
+import StackNavigator from './navigation/StackNavigator';
+
+
+export default function App() {
+  return <StackNavigator />;
+}
