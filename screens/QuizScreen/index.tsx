@@ -1,14 +1,17 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import questions from '../../data/questions';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 
 const QuizScreen = () => {
 
     const route = useRoute();
     const navigation = useNavigation();
+    const bottomSheetRef = useRef<BottomSheet>(null);
     const [currentQuestionIndex, setcurrentQuestionIndex] = useState(0)
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState(0);
+    const [showHint, setShowHint] = useState(false)
 
     // TODO: Add types
     // @ts-ignore
@@ -31,6 +34,12 @@ const QuizScreen = () => {
         }
     }
 
+    const handleSheetChanges = useCallback((index: number) => {
+        if(index === -1){
+            setShowHint(false);
+        }
+      }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{question}</Text>
@@ -45,6 +54,19 @@ const QuizScreen = () => {
         </TouchableOpacity>
         ))}
         </View>
+        <TouchableOpacity style={styles.hint} onPress={()=> setShowHint(prev => !prev)}>
+            <Text style={styles.hintText}>i</Text>
+        </TouchableOpacity>
+        {showHint && (<BottomSheet enablePanDownToClose ref={bottomSheetRef}
+        snapPoints={[150, "50%"]}
+        onChange={handleSheetChanges}
+        >
+            <BottomSheetView style={styles.contentContainer}>
+            <Text style={styles.buttomSheetTitle}>Hint!</Text>
+                <Text style={styles.buttomSheetDesc}>{hint}</Text>
+            </BottomSheetView>
+        </BottomSheet>)
+        }
     </View>
   )
 }
@@ -74,8 +96,35 @@ const styles = StyleSheet.create({
     },
     optionsContainer: {
         gap: 8,
+    },
+    contentContainer: {
+        flex: 1,
+        padding: 36,
+        alignItems: 'center',
+        gap: 16,
+      },
+    hint: {
+        backgroundColor: "tomato",
+        width: 80,
+        height: 80,
+        borderRadius: 80,
+        position: "absolute",
+        bottom: 32,
+        right: 16,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    hintText: {
+        color: "white",
+        fontSize: 36,
+        fontWeight: "bold"
+    },
+    buttomSheetTitle: {
+        fontSize: 24,
+    },
+    buttomSheetDesc: {
+        fontSize: 16,
     }
-
 })
 
 export default QuizScreen
