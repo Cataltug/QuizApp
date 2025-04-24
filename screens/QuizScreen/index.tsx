@@ -30,7 +30,7 @@ const QuizScreen = () => {
         } else {
             // score: 3/10
             // @ts-ignore
-            navigation.navigate("Result", {score, total: quizQuestions.length})
+            navigation.navigate("Result", {score, category, total: quizQuestions.length})
         }
     }
 
@@ -60,7 +60,7 @@ const QuizScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.prevQuestion, {backgroundColor: currentQuestionIndex === 0 ? "grey" : "dodgerblue"}]} onPress={()=> setcurrentQuestionIndex(prev => prev - 1)} disabled= {currentQuestionIndex === 0}>
-            <Text style={styles.prevQuestionText}>Previous Question</Text>
+            <Text style={styles.prevQuestionText}>⬅️​​ Previous Question</Text>
         </TouchableOpacity>
         
         {showHint && (<BottomSheet enablePanDownToClose ref={bottomSheetRef}
