@@ -54,13 +54,20 @@ const QuizScreen = () => {
         </TouchableOpacity>
         ))}
         </View>
+
         <TouchableOpacity style={styles.hint} onPress={()=> setShowHint(prev => !prev)}>
             <Text style={styles.hintText}>i</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.prevQuestion, {backgroundColor: currentQuestionIndex === 0 ? "grey" : "dodgerblue"}]} onPress={()=> setcurrentQuestionIndex(prev => prev - 1)} disabled= {currentQuestionIndex === 0}>
+            <Text style={styles.prevQuestionText}>Previous Question</Text>
+        </TouchableOpacity>
+        
         {showHint && (<BottomSheet enablePanDownToClose ref={bottomSheetRef}
         snapPoints={[150, "50%"]}
         onChange={handleSheetChanges}
         >
+
             <BottomSheetView style={styles.contentContainer}>
             <Text style={styles.buttomSheetTitle}>Hint!</Text>
                 <Text style={styles.buttomSheetDesc}>{hint}</Text>
@@ -124,6 +131,21 @@ const styles = StyleSheet.create({
     },
     buttomSheetDesc: {
         fontSize: 16,
+    },
+    prevQuestion: {
+        backgroundColor: "dodgerblue",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        position: "absolute",
+        bottom: 32,
+        left: 16,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    prevQuestionText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold"
     }
 })
 
