@@ -1,13 +1,19 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useCallback, useRef, useState } from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { StaticScreenProps, useNavigation, useRoute } from '@react-navigation/native'
 import questions from '../../data/questions';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { saveCompletedTest } from '../../utils/storage';
 
-const QuizScreen = () => {
+type CategoryType = keyof typeof questions;
 
-    const route = useRoute();
+type Props = StaticScreenProps<{
+    category: CategoryType;
+  }>;
+
+const QuizScreen = ({route}: Props) => {
+
+
     const navigation = useNavigation();
     const bottomSheetRef = useRef<BottomSheet>(null);
     const [currentQuestionIndex, setcurrentQuestionIndex] = useState(0)
@@ -20,7 +26,7 @@ const QuizScreen = () => {
     const quizQuestions = questions[category];
     const {question, options, answerIndex, hint} = quizQuestions[currentQuestionIndex];
 
-    const handleAnswer = async (option, optionIndex) => {
+    const handleAnswer = async (option: string, optionIndex: number) => {
         //is option = answer?
         if(optionIndex === answerIndex) {
             setScore(prevScore => prevScore + 1)
@@ -47,13 +53,13 @@ const QuizScreen = () => {
     <View style={styles.container}>
       <Text style={styles.question}>{question}</Text>
       <View style = {styles.optionsContainer}>
-      {options.map((x,i) => (
+      {options.map((option,i) => (
         <TouchableOpacity
-        key={x}
-        style={styles.option} onPress={() => handleAnswer(x, i)}>
+        key={option}
+        style={styles.option} onPress={() => handleAnswer(option, i)}>
         <Text style={styles.optionText}
         adjustsFontSizeToFit
-        numberOfLines={1}>{x}</Text>
+        numberOfLines={1}>{option}</Text>
         </TouchableOpacity>
         ))}
         </View>

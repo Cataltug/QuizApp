@@ -1,10 +1,21 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
-import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
+import { StackActions, StaticScreenProps, useNavigation, useRoute } from '@react-navigation/native'
 import Category from '../../components/Category';
+import questions from '../../data/questions';
+import Button from '../../components/Button';
 
-const ResultScreen = () => {
-  const route = useRoute();
+type CategoryType = keyof typeof questions;
+
+type Props = StaticScreenProps<{
+    score: number;
+    total: number;
+    category: CategoryType;
+  }>;
+
+
+const ResultScreen = ({route}: Props) => {
+
   const navigation = useNavigation();
 
   // TODO: assign types
@@ -26,12 +37,9 @@ const ResultScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Quiz Completed!</Text>
       <Text style={styles.scoreText}>Score: {score}/{total}</Text>
-      <TouchableOpacity style={styles.homeButton} onPress={handleHome}>
-        <Text style={styles.homeText}>🏠​ Return Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
-        <Text style={styles.retryText}>🔁 Play Again?</Text>
-      </TouchableOpacity>
+      <Button title="🏠​ Return Home" onPress={handleHome}/>
+      <Button title="🔁 Play Again?" onPress={handleRetry}/>
+      
     </View>
   )
 }
@@ -49,26 +57,6 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     fontSize: 18,
-  },
-  homeButton: {
-    backgroundColor: "dodgerblue",
-    width: "100%",
-    paddingVertical: 16,
-  },
-  homeText: {
-    color: "white",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  retryButton: {
-    backgroundColor: "dodgerblue",
-    width: "100%",
-    paddingVertical: 16,
-  },
-  retryText: {
-    color: "white",
-    fontSize: 16,
-    textAlign: "center",
   }
 })
 

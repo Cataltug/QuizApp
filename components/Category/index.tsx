@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import Button from '../Button';
 
 
 type Category = {
@@ -24,20 +25,7 @@ const Category = ({category: {id, name}, isCompleted}: Props) => {
     };
 
   return (
-    <TouchableOpacity 
-    onPress={() => handlePressed()}
-    style={{
-        flex:1,
-        backgroundColor: "dodgerblue",
-        padding: 16,
-    }}>
-      <Text style={{
-        fontSize: 24,
-        color: "white",
-        textAlign: "center",
-
-      }}>{name} {isCompleted && "✔️​"}</Text>
-    </TouchableOpacity>
+    <Button title={`${name} ${isCompleted && "✔️​"}`} onPress={handlePressed} flex/>
   )
 }
 

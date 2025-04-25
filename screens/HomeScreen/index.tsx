@@ -14,7 +14,7 @@ const categories = [
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [completedTests, setCompletedTests] = useState([])
+  const [completedTests, setCompletedTests] = useState<string[]>([])
 
   useEffect(() => {
     function fetchCompletedTests(){
