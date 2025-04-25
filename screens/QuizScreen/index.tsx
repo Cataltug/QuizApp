@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import questions from '../../data/questions';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { saveCompletedTest } from '../../utils/storage';
 
 const QuizScreen = () => {
 
@@ -19,7 +20,7 @@ const QuizScreen = () => {
     const quizQuestions = questions[category];
     const {question, options, answerIndex, hint} = quizQuestions[currentQuestionIndex];
 
-    const handleAnswer = (option, optionIndex) => {
+    const handleAnswer = async (option, optionIndex) => {
         //is option = answer?
         if(optionIndex === answerIndex) {
             setScore(prevScore => prevScore + 1)
@@ -28,6 +29,8 @@ const QuizScreen = () => {
         if(currentQuestionIndex + 1 < quizQuestions.length) {
             setcurrentQuestionIndex(prevQuestionIndex => prevQuestionIndex + 1)
         } else {
+            //if all questions answered
+            await saveCompletedTest(category);
             // score: 3/10
             // @ts-ignore
             navigation.navigate("Result", {score, category, total: quizQuestions.length})

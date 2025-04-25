@@ -10,10 +10,13 @@ type Category = {
 
 type Props = {
     category: Category;
+    isCompleted: boolean;
 }
 
-const Category = ({category: {id, name}}: Props) => {
+const Category = ({category: {id, name}, isCompleted}: Props) => {
     const navigation = useNavigation();
+
+
     const handlePressed = () => {
         // TODO: Fix types
         // @ts-ignore
@@ -33,7 +36,7 @@ const Category = ({category: {id, name}}: Props) => {
         color: "white",
         textAlign: "center",
 
-      }}>{name}</Text>
+      }}>{name} {isCompleted && "✔️​"}</Text>
     </TouchableOpacity>
   )
 }
